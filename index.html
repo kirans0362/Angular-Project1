@@ -17,7 +17,23 @@
       <div class="col-md-12">
 		<input class="btn btn-default" type="button" value="Step 1">
 		<input class="btn btn-default" type="button" value="Step 2">
-		<div ng-controller="mainController">
+	<div ng-controller="mainController">
+		<div>
+			<label>What is your name?</label>
+			<input type="text" ng-model="handle">
+			<div class="alert" ng-class="{ 'alert-danger': handle.length< characters }" ng-if="handle.length !== characters">
+			  <div ng-show = "handle.length<characters"> You have less than 5 characters</div>
+			  <div ng-show = "handle.length>characters"> You have more than 5 characters</div>
+			  <h1>Rules</h1>
+			  <ul><li ng-repeat = "rule in rules">{{ rule.Rule}}</li></ul>
+			</div>
+		</div>
+		<div>
+			<h1>My name is {{ lowercasehandle() }}</h1>
+		</div>
+    	<div>
+			<h1>Hello {{ name }}</h1>
+		</div>
 		<form name="myForm">
 			<input type="text" ng-model="field" name="myField" required minlength="5" />
 			   <div ng-messages="myForm.myField.$error">
@@ -26,7 +42,7 @@
 			   </div>
         </form>
 		</div>
-	  </div>	
+	</div>	
     </div>
   </div>
 
