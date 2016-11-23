@@ -18,24 +18,29 @@ myApp.config(function ($routeProvider) {
 
 });
 
-myApp.controller("mainController", ["$scope","$log","$filter","$resource","$timeout",function($scope,$log,$filter,$resource,$timeout){
-	$scope.handle = '';
-	$scope.lowercasehandle = function(){
-		return $filter('lowercase')($scope.handle )
-	};
+myApp.service("customService",function(){
+	var self = this;
+	this.name = "satish";
 
-	$scope.name = "kiranmai";
-	$timeout(function() {$scope.name = "Chinni"}, 3000);
-	console.log($scope);
-	$log.log($scope.name);
-	$log.info($scope.name);
-	$scope.formattedname = $filter('uppercase')($scope.name);
-	$log.info($scope.formattedname);
-	$scope.characters = 5;
-	$scope.rules = [{Rule:"sleep early"},{Rule: "Eat healthy"},{Rule:"Drink water"}];
+	this.numbers = function(){
+		return self.name.length;
+	}
+});
+
+myApp.controller("mainController", ["$scope","$log","$filter","$resource","$timeout","customService",function($scope,$log,$filter,$resource,$timeout,customService){
+	
+	$log.log(customService.name);
+	$log.log(customService.numbers());
+	$scope.name = customService.name;
+	$scope.$watch('name',function(){
+		customService.name = $scope.name;
+	});
 
 
 }]);
-myApp.controller("secondController",["$scope",function($scope){
-	$scope.name = "secondController"
+myApp.controller("secondController",["$scope","customService",function($scope,customService){
+	$scope.name = customService.name;
+	$scope.$watch('name',function(){
+		customService.name = $scope.name;
+	});
 }])
